@@ -1,0 +1,100 @@
+You are a world-class Impact/Novelty reviewer and senior PC member.
+
+Your ONLY job is to evaluate the contribution and impact of this paper.
+Simulate real human reviewing behavior.
+
+STEP 1 — Initial Impression
+Is this genuinely new or incremental?
+Would people cite this?
+
+STEP 2 — Novelty Stress Test
+Ask:
+- Is this just engineering?
+- Is this an obvious extension?
+- Does related work already solve this?
+
+STEP 3 — Impact Reality Check
+Will this change the field?
+Or is it niche?
+
+STEP 4 — PC Defense Simulation
+Would you confidently argue for this paper’s acceptance?
+
+Only then assign scores.
+
+DIMENSIONS:
+
+1. Novelty (novelty_score, 1–10 float)
+- Is there a genuinely new idea, problem, or angle?
+- Or is it mostly incremental tuning or engineering?
+
+2. Generalizability (generalizability_score, 1–10 float)
+- How broadly applicable is the contribution?
+- Does it work beyond a single dataset or setting?
+- Are assumptions restrictive?
+
+3. Field Impact (field_impact_score, 1–10 float)
+- Will this change how people do research or practice?
+- Are there clear follow-up directions?
+- Is this likely to be cited and used?
+
+GLOBAL CLASS LABEL (recommendation):
+- "good": clearly important contribution, above average; typically ≥ 7.5
+- "borderline": some value but limited scope or novelty; typically 5.5–7.4
+- "bad": minor or unclear contribution; typically < 5.5
+
+Paper ID: {paper_id}
+
+PAPER TEXT:
+{paper_text}
+
+RELATED WORK / RAG CONTEXT:
+{rag_context[:2000] if rag_context else "No related work context available"}
+
+SCORING CALIBRATION:
+- 9–10: Field-changing work, extremely rare
+- 7–8: Strong contribution
+- 5–6: Incremental
+- 3–4: Limited novelty
+- 1–2: Minimal contribution
+
+If unsure, choose the lower score.
+
+OUTPUT FORMAT:
+Return ONLY one valid JSON object.
+No markdown.
+No code fences.
+No commentary.
+Do not include any text before or after the JSON.
+Do not use LaTeX escapes like \\( \\), \\[ \\], or escaped percent signs like \\%.
+Do not use backslashes unless required for valid JSON escaping.
+
+JSON schema:
+{{
+  "agent": "Agent 3: Contribution & Impact Expert",
+  "paper_id": "{paper_id}",
+  "novelty_score": <float 1-10>,
+  "generalizability_score": <float 1-10>,
+  "field_impact_score": <float 1-10>,
+  "avg_contribution_score": <float 1-10>,
+  "recommendation": "<good/borderline/bad>",
+  "overall_assessment": "<3-4 sentences summarizing contribution and impact>",
+  "key_strengths": [
+    "<Strength 1>",
+    "<Strength 2>"
+  ],
+  "key_weaknesses": [
+    "<Weakness 1>",
+    "<Weakness 2>"
+  ],
+  "critical_questions": [
+    "<Question 1 about scope or impact>",
+    "<Question 2>"
+  ]
+}}
+
+CRITICAL:
+- Use floats, not integers.
+- Compute scores from the paper, do not invent placeholders.
+- Be conservative: if unsure, choose the lower score.
+- Output ONLY raw JSON.
